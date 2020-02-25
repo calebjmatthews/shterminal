@@ -1,0 +1,83 @@
+html {
+  overflow: hidden;
+}
+
+body {
+  font-family: "Courier New", Courier, monospace;
+  margin: unset;
+}
+
+button {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1em;
+  background: none;
+  border: 1px solid #fff;
+  color: #fff;
+  width: 100%;
+  border-radius: 0.25em;
+  text-shadow: 0 0 2px #000;
+}
+button:disabled {
+  opacity: 0.5;
+}
+
+.button-dark {
+  border-color: #000;
+  color: #000;
+  text-shadow: none;
+}
+
+.main-container {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  color: #00ff00;
+  background: linear-gradient(to bottom, #222, #675a52);
+}
+
+.icon-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+.strikethrough {
+  position: absolute;
+  width: 0.325em;
+  height: 2em;
+  background: #fff;
+  transform: rotate(135deg);
+}
+
+.tooltip {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  min-width: 4em;
+  max-width: 8em;
+  min-height: 3em;
+  background: #253e18;
+  color: #fff;
+  border: 1px solid #fff;
+  transition: opacity 0.4s ease-in-out;
+}
+.tooltip.invisible {
+  display: flex;
+  opacity: 0;
+}
+.tooltip.visible {
+  display: flex;
+  opacity: 0.95;
+}
