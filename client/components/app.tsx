@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Thread from './thread';
+import ThreadWindow from './thread_window';
 
 export default class App extends Component {
   props: AppProps;
@@ -8,7 +8,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="main-container">
-        <Thread />
+        <ThreadWindow />
       </div>
     );
   }
