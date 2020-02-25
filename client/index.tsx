@@ -7,6 +7,7 @@ const store = configureStore();
 import App from './components/app';
 
 require('./styles/root.css');
+require('./styles/thread.css');
 
 // @ts-ignore
 const createStoreWithMiddleware = applyMiddleware(createStore);
