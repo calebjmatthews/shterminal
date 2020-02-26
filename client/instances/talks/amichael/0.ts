@@ -19,7 +19,7 @@ export const amichael0 = new Talk({
     }),
     new Co({
       fragments: [
-        new Fr({text: 'You are accessing this terminal remotely, ',
+        new Fr({text: 'You are accessing Maria Atalanta\'s terminal remotely, ',
           actionBefore: FA.MED_PAUSE, actionAfter: FA.SHORT_PAUSE}),
         new Fr({text: 'which should not be possible.', actionAfter: FA.SHORT_PAUSE})
       ],
@@ -27,8 +27,9 @@ export const amichael0 = new Talk({
     }),
     new Co({
       fragments: [
-        new Fr({text: 'Are you looking to gain something?', actionBefore: FA.MED_PAUSE,
-          actionAfter: FA.SHORT_PAUSE})
+        new Fr({text: 'Are you looking to gain', actionBefore: FA.MED_PAUSE,
+          actionAfter: FA.MED_PAUSE}),
+        new Fr({text: ' something?', actionAfter: FA.SHORT_PAUSE})
       ],
       responses: null
     }),

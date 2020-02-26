@@ -83,3 +83,10 @@ button:disabled {
   padding: 0.5em;
   border-top: 1px solid #00ff00;
 }
+
+.cursor-on {
+  background-color: #00ff00;
+}
+.cursor-off {
+  background-color: 
+}

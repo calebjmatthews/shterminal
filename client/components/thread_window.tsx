@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Thread from '../models/thread';
+import Cursor from './cursor';
 
 import { amichael0 } from '../instances/talks/amichael/0';
 
@@ -39,12 +40,16 @@ export default class ThreadWindow extends Component {
   }
 
   render() {
+    let textSplit = this.state.text.split('\n');
     return (
       <div className="thread-container">
-        {this.state.text.split('\n').map((line, index) => {
-          return (
-            <div key={index}>{line}</div>
-          );
+        {textSplit.map((line, index) => {
+          if (index == textSplit.length-1 && line.length > 0) {
+            return <div key={index}>{line}<Cursor /></div>
+          }
+          else {
+            return <div key={index}>{line}</div>
+          }
         })}
       </div>
     );
