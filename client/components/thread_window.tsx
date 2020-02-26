@@ -6,6 +6,8 @@ import Thread from '../models/thread';
 
 import { amichael0 } from '../instances/talks/amichael/0';
 
+const INTERVAL_MS = 50;
+
 export default class ThreadWindow extends Component {
   state: ThreadWindowState;
 
@@ -15,17 +17,25 @@ export default class ThreadWindow extends Component {
     this.state = {
       text: '',
       thread: new Thread(amichael0),
-      interval: setInterval(() => {
+      intervalStep: setInterval(() => {
         this.callThreadStep();
-      }, 50),
+      }, INTERVAL_MS),
+      secondsElapsed: 0,
+      intervalSeconds: setInterval(() => {
+        this.countSecond();
+      }, 1000)
     }
   }
 
   callThreadStep() {
     if (this.state.thread.ended == false) {
-      let newText = this.state.thread.step();
+      let newText = this.state.thread.step(this.state.secondsElapsed);
       this.setState({text: newText});
     }
+  }
+
+  countSecond() {
+    this.setState({ secondsElapsed: this.state.secondsElapsed+1 });
   }
 
   render() {
@@ -40,5 +50,7 @@ export default class ThreadWindow extends Component {
 class ThreadWindowState {
   text: string;
   thread: Thread;
-  interval: NodeJS.Timeout;
+  intervalStep: NodeJS.Timeout;
+  secondsElapsed: number;
+  intervalSeconds: NodeJS.Timeout;
 }

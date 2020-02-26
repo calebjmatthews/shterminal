@@ -20,7 +20,6 @@ export default class Header extends Component {
   }
 
   render() {
-    let startTime = new Date(Date.now());
     let storyMoment = moment('82-05-05 02:33:06', 'YY-MM-DD HH:mm:ss');
     storyMoment.add(this.state.secondsElapsed, 'seconds');
     let datetimeText = storyMoment.format('YY-MM-DD HH:mm:ss');

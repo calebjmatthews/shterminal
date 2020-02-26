@@ -7,11 +7,12 @@ const FA = FragmentActions;
 export const amichael0 = new Talk({
   id: 0,
   name: 'Cold intro',
+  speaker: 'amichael',
   contents: [
     new Co({
       fragments: [
-        new Fr({text: 'Well, ', action: FA.SHORT_PAUSE}),
-        new Fr({text: 'look at this.', action: FA.LONG_PAUSE})
+        new Fr({text: 'What? ', action: FA.SHORT_PAUSE}),
+        new Fr({text: 'Who are you?', action: FA.LONG_PAUSE})
       ],
       responses: null
     })
