@@ -12,31 +12,14 @@ button {
   font-size: 1em;
   background: none;
   border: 1px solid #fff;
-  color: #fff;
-  width: 100%;
-  border-radius: 0.25em;
-  text-shadow: 0 0 2px #000;
+  color: #00ff00;
+  margin: 0.5em;
+  border: 1px solid #00ff00;
 }
 button:disabled {
   opacity: 0.5;
 }
 
-.button-dark {
-  border-color: #000;
-  color: #000;
-  text-shadow: none;
-}
-
-.main-container {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100vh;
-  width: 100vw;
-  color: #00ff00;
-  background: linear-gradient(to bottom, #222, #675a52);
-}
 
 .icon-button {
   position: relative;
@@ -58,4 +41,44 @@ button:disabled {
   height: 2em;
   background: #fff;
   transform: rotate(135deg);
+}
+
+.button-group {
+  display: flex;
+}
+
+.main-container {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  color: #00ff00;
+  background: linear-gradient(to bottom, #222, #35312f);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em;
+  border-bottom: 1px solid #00ff00;
+}
+
+.body-container {
+  display: flex;
+  flex: 1 0;
+}
+
+.sidebar {
+  flex: 1 0;
+  padding: 1.5em;
+  border-right: 1px solid #00ff00;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+  border-top: 1px solid #00ff00;
 }

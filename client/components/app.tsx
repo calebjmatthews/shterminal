@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
 import ThreadWindow from './thread_window';
+import Header from './header';
+import Sidebar from './sidebar';
+import Footer from './footer';
 
 export default class App extends Component {
   props: AppProps;
@@ -8,7 +11,12 @@ export default class App extends Component {
   render() {
     return (
       <div className="main-container">
-        <ThreadWindow />
+        <Header />
+        <div className="body-container">
+          <Sidebar />
+          <ThreadWindow />
+        </div>
+        <Footer />
       </div>
     );
   }
