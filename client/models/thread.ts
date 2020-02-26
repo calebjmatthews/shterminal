@@ -22,13 +22,17 @@ export default class Thread {
       let fragment = content.fragments[this.fragmentPos];
 
       if (this.fragmentPos == 0 && this.subPos == 0) {
-        this.beginContent(secondsElapsed);
+        this.contentBegin(secondsElapsed);
       }
 
       this.text += fragment.text[this.subPos];
       this.subPos++;
       if (this.subPos >= (fragment.text.length-1)) {
         this.fragmentEnd();
+      }
+      if (this.fragmentPos >= (content.fragments.length-1)
+        && this.subPos >= (fragment.text.length-1)) {
+        this.contentEnd();
       }
       return this.text;
     }
@@ -38,11 +42,24 @@ export default class Thread {
     }
   }
 
-  beginContent(secondsElapsed: number): void {
+  contentBegin(secondsElapsed: number): void {
     let storyMoment = moment('82-05-05 02:33:06', 'YY-MM-DD HH:mm:ss');
     storyMoment.add(secondsElapsed, 'seconds');
     let datetimeText = storyMoment.format('HH:mm:ss');
     this.text += (datetimeText + ' ' + this.talk.speaker + ': ');
+  }
+
+  contentEnd(): void {
+    let content = this.talk.contents[this.contentPos];
+    let fragment = content.fragments[this.fragmentPos];
+
+    this.text += '\n';
+    this.contentPos++;
+    this.fragmentPos = 0;
+    this.subPos = 0;
+    if (this.contentPos >= this.talk.contents.length) {
+      this.ended = true;
+    }
   }
 
   fragmentEnd(): void {
@@ -51,10 +68,9 @@ export default class Thread {
 
     this.text += fragment.text[this.subPos];
     this.fragmentAct();
-    this.fragmentPos++;
-    this.subPos = 0;
-    if (this.fragmentPos >= content.fragments.length) {
-      this.ended = true;
+    if (this.fragmentPos+1 < content.fragments.length) {
+      this.fragmentPos++;
+      this.subPos = 0;
     }
   }
 

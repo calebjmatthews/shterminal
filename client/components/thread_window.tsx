@@ -41,7 +41,11 @@ export default class ThreadWindow extends Component {
   render() {
     return (
       <div className="thread-container">
-        {this.state.text}
+        {this.state.text.split('\n').map((line, index) => {
+          return (
+            <div key={index}>{line}</div>
+          );
+        })}
       </div>
     );
   }

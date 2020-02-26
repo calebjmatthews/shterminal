@@ -15,6 +15,13 @@ export const amichael0 = new Talk({
         new Fr({text: 'Who are you?', action: FA.LONG_PAUSE})
       ],
       responses: null
+    }),
+    new Co({
+      fragments: [
+        new Fr({text: 'You are accessing this terminal remotely, ', action: FA.SHORT_PAUSE}),
+        new Fr({text: 'which should not be possible.', action: FA.LONG_PAUSE})
+      ],
+      responses: null
     })
   ]
 })
