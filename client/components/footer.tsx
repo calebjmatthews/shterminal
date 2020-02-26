@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ResponseButton from './resp_button';
 
 // <div className="button-group">
 //   <button type="button">{'> Yes'}</button>
@@ -12,7 +13,7 @@ export default function Sidebar() {
         AUTHORIZED RESPONSE OPTIONS:
       </div>
       <div>
-        NO RESPONSE OPTIONS CURRENTLY AUTHORIZED. PLEASE CONTACT AN ADMINISTRATOR.
+        <ResponseButton givenValue='scrambled' />
       </div>
     </div>
   );

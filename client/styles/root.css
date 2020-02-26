@@ -8,12 +8,16 @@ body {
 }
 
 button {
+  min-width: 120px;
+  min-height: 30px;
+  margin: 0.5em;
+  text-align: left;
+  vertical-align: bottom;
   font-family: "Courier New", Courier, monospace;
   font-size: 1em;
   background: none;
   border: 1px solid #fff;
   color: #00ff00;
-  margin: 0.5em;
   border: 1px solid #00ff00;
 }
 button:disabled {
@@ -88,5 +92,5 @@ button:disabled {
   background-color: #00ff00;
 }
 .cursor-off {
-  background-color: 
+  background-color:
 }
