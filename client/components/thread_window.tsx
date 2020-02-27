@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Thread from '../models/thread';
+import Thread from '../models/thread/thread';
 import Cursor from './cursor';
 
-import { amichael0 } from '../instances/talks/amichael/0';
+import { amichael0_0 } from '../instances/talks/amichael/0.0';
 
 const INTERVAL_MS = 50;
 
@@ -17,7 +17,7 @@ export default class ThreadWindow extends Component {
 
     this.state = {
       text: '',
-      thread: new Thread(amichael0),
+      thread: new Thread(amichael0_0),
       intervalStep: setInterval(() => {
         this.callThreadStep();
       }, INTERVAL_MS),

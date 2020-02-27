@@ -1,9 +1,10 @@
 import moment from 'moment';
 
-import Talk from './talk/talk';
-import { FragmentActions } from './enums/fragment_actions';
+import Talk from '../talk/talk';
+import { FragmentActions } from '../enums/fragment_actions';
 
 export default class Thread {
+  speaker: string;
   talk: Talk;
   contentPos: number = 0;
   fragmentPos: number = -1;
@@ -13,6 +14,7 @@ export default class Thread {
   ended: boolean = false;
 
   constructor(talk: Talk) {
+    this.speaker = talk.speaker;
     this.talk = talk;
   }
 

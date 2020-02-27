@@ -19,6 +19,7 @@ button {
   border: 1px solid #fff;
   color: #00ff00;
   border: 1px solid #00ff00;
+  cursor: pointer;
 }
 button:disabled {
   opacity: 0.5;

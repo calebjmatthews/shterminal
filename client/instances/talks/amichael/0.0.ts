@@ -1,10 +1,13 @@
 import Talk from '../../../models/talk/talk';
 import Co from '../../../models/talk/content';
 import Fr from '../../../models/talk/fragment';
+import Re from '../../../models/talk/response';
 import { FragmentActions } from '../../../models/enums/fragment_actions';
 const FA = FragmentActions;
+import { RespButtonNames } from '../../../models/enums/resp_button_names';
+const RB = RespButtonNames;
 
-export const amichael0 = new Talk({
+export const amichael0_0 = new Talk({
   id: 0,
   name: 'Cold intro',
   speaker: 'amichael',
@@ -15,7 +18,7 @@ export const amichael0 = new Talk({
           actionAfter: FA.MED_PAUSE}),
         new Fr({text: 'Who are you?', actionAfter: FA.SHORT_PAUSE})
       ],
-      responses: null
+      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
     }),
     new Co({
       fragments: [
@@ -23,7 +26,7 @@ export const amichael0 = new Talk({
           actionBefore: FA.MED_PAUSE, actionAfter: FA.SHORT_PAUSE}),
         new Fr({text: 'which should not be possible.', actionAfter: FA.SHORT_PAUSE})
       ],
-      responses: null
+      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
     }),
     new Co({
       fragments: [
@@ -38,7 +41,7 @@ export const amichael0 = new Talk({
         new Fr({text: 'Heaven knows what that could be.',
           actionBefore: FA.SHORT_PAUSE, actionAfter: FA.MED_PAUSE})
       ],
-      responses: null
+      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
     }),
     new Co({
       fragments: [
@@ -54,7 +57,7 @@ export const amichael0 = new Talk({
         new Fr({text: 'The more messes you can make.', actionBefore: FA.SHORT_PAUSE,
           actionAfter: FA.MED_PAUSE})
       ],
-      responses: null
+      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
     }),
     new Co({
       fragments: [

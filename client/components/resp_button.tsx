@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 import { utils } from '../models/utils';
+import { RespButtonNames } from '../models/enums/resp_button_names';
 
 export default class ResponseButton extends Component {
   state: {
+    name: string,
     value: string,
     timeouts: NodeJS.Timeout[]
   };
@@ -12,8 +14,9 @@ export default class ResponseButton extends Component {
   constructor(props: {givenValue: string}) {
     super(props);
 
-    if (props.givenValue != 'scrambled') {
+    if (props.givenValue != RespButtonNames.SCRAMBLED) {
       this.state = {
+        name: props.givenValue,
         value: props.givenValue,
         timeouts: null
       }
@@ -26,6 +29,7 @@ export default class ResponseButton extends Component {
         }, (Math.floor(utils.randomHeavyTailed() * 1000))))
       }
       this.state = {
+        name: props.givenValue,
         value: this.getScrambledValue(),
         timeouts: timeouts
       }

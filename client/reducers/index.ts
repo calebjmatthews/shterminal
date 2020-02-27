@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import ReaderReducer from './reader';
+import ThreadHandlerReducer from './thread_handler';
 
 const rootReducer = combineReducers({
-  reader: ReaderReducer
+  tHandler: ThreadHandlerReducer
 });
 
 export default rootReducer;

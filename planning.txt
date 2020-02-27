@@ -1,0 +1,4 @@
+Thread state:
+- Tracks the currently active talk
+- Tracks the current content position with each talk, even those that are not active
+- Records each displayed content piece (the talk it came from?) and its timestamp
