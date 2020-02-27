@@ -26,7 +26,7 @@ export default class Header extends Component {
     return (
       <div className="header">
         <div>
-          GOC SH TERMINAL v108.55
+          DPOL SH TERMINAL v108.55
         </div>
         <div>
           LOGGED IN AS matalanta

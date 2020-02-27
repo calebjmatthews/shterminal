@@ -3,21 +3,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Thread from '../models/thread/thread';
+import ThreadHandler from '../models/thread/thread_handler';
 import Cursor from './cursor';
 
 import { amichael0_0 } from '../instances/talks/amichael/0.0';
 
 const INTERVAL_MS = 50;
 
-export default class ThreadWindow extends Component {
+class ThreadWindow extends Component {
+  props: ThreadWindowProps;
   state: ThreadWindowState;
 
   constructor(props: any) {
     super(props);
 
     this.state = {
-      text: '',
-      thread: new Thread(amichael0_0),
       intervalStep: setInterval(() => {
         this.callThreadStep();
       }, INTERVAL_MS),
@@ -29,8 +29,8 @@ export default class ThreadWindow extends Component {
   }
 
   callThreadStep() {
-    if (this.state.thread.ended == false) {
-      let newText = this.state.thread.step(this.state.secondsElapsed);
+    if (this.props.tHandler.ended == false) {
+      let newText = this.props.tHandler.step(this.state.secondsElapsed);
       this.setState({text: newText});
     }
   }
@@ -40,7 +40,8 @@ export default class ThreadWindow extends Component {
   }
 
   render() {
-    let textSplit = this.state.text.split('\n');
+    let tHandler = this.props.tHandler;
+    let textSplit = tHandler.threads[tHandler.currentSpeaker].text.split('\n');
     return (
       <div className="thread-container">
         {textSplit.map((line, index) => {
@@ -56,10 +57,18 @@ export default class ThreadWindow extends Component {
   }
 }
 
+class ThreadWindowProps {
+  tHandler: ThreadHandler;
+}
+
 class ThreadWindowState {
-  text: string;
-  thread: Thread;
   intervalStep: NodeJS.Timeout;
   secondsElapsed: number;
   intervalSeconds: NodeJS.Timeout;
 }
+
+function mapStateToProps({ tHandler }) {
+  return { tHandler }
+}
+
+export default connect(mapStateToProps)(ThreadWindow);
