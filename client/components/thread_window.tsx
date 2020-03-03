@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Thread from '../models/thread/thread';
-import ThreadHandler from '../models/thread/thread_handler';
+import ThreadHandler from '../models/thread/thread_handler/thread_handler';
 import Cursor from './cursor';
 
 import { amichael0_0 } from '../instances/talks/amichael/0.0';

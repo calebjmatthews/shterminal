@@ -2,3 +2,10 @@ Thread state:
 - Tracks the currently active talk
 - Tracks the current content position with each talk, even those that are not active
 - Records each displayed content piece (the talk it came from?) and its timestamp
+
+Step function:
+- Returns an enum string that signifies the result of the timestep
+  - "Delay" if stepping through an existing delay
+  - "Char" if a new character is added to an existing fragment
+  - "Fragment start" if starting a new fragment within an existing content
+  - "Content start" if starting a new piece of content within an existing talk

@@ -1,8 +1,19 @@
-export const RESPONSE_SELECT = 'RESPONSE_SELECT';
-export function responseSelect(responseName: string, responseValue: string) {
-  return {
-    type: RESPONSE_SELECT,
-    responseName: responseName,
-    responseValue: responseValue
+import ThreadHandler from '../models/thread/thread_handler/thread_handler';
+
+export const SET_PENDING_TALK = 'SET_PENDING_TALK';
+export const SET_PENDING_NULL = 'SET_PENDING_NULL';
+export function responseTriggerSelect(tHandler: ThreadHandler, responseName: string,
+  responseValue: string): any {
+  let newTalkId = tHandler.receiveResponseTrigger(responseName, responseValue);
+  if (newTalkId != null) {
+    return {
+      type: SET_PENDING_TALK,
+      talkId: newTalkId
+    }
+  }
+  else {
+    return {
+      type: SET_PENDING_NULL
+    }
   }
 }
