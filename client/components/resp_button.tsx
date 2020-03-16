@@ -69,9 +69,14 @@ class ResponseButton extends Component {
   }
 
   render() {
+    let caption = '> ' + this.state.value;
+    if (this.props.tHandler.pendingNull == true
+      || this.props.tHandler.pendingTalk != null) {
+      caption = 'Pending...';
+    }
     return (
       <button type="button" onClick={ () => this.click() }>
-      {'> ' + this.state.value}
+        { caption }
       </button>
     );
   }
