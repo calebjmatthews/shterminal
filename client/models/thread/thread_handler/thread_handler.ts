@@ -6,6 +6,7 @@ import Response from '../../talk/response';
 import step from './step';
 
 import { FragmentActions } from '../../enums/fragment_actions';
+import { StepResult } from '../../enums/step_result';
 const STARTING_TIME_STRING = '82-05-05 02:33:06';
 
 export default class ThreadHandler implements ThreadHandlerInterface {
@@ -24,8 +25,43 @@ export default class ThreadHandler implements ThreadHandlerInterface {
     Object.assign(this, threadHandler);
   }
 
-  step(secondsElapsed: number): string {
-    return step(this, secondsElapsed);
+  takeStep(secondsElapsed: number): string {
+    let stepRes: { type: string, char?: string } = this.step();
+    switch(stepRes.type) {
+      case StepResult.CON_START:
+      this.contentBegin(secondsElapsed);
+      this.fragmentPos++;
+      this.fragmentBegin();
+      return this.threads[this.currentSpeaker].text;
+
+      case StepResult.CON_END:
+      this.fragmentEnd();
+      let contentPos = this.threadStates[this.currentSpeaker].contentPoss[
+        this.threadStates[this.currentSpeaker].currentTalk];
+      this.contentEnd();
+      contentPos = this.threadStates[this.currentSpeaker].contentPoss[
+        this.threadStates[this.currentSpeaker].currentTalk];
+      this.fragmentBegin();
+      return this.threads[this.currentSpeaker].text;
+
+      case StepResult.FRG_END_START:
+      this.fragmentEnd();
+      this.fragmentBegin();
+      return this.threads[this.currentSpeaker].text;
+
+      case StepResult.FORWARD:
+      this.threads[this.currentSpeaker].text += stepRes.char;
+      this.subPos++;
+      return this.threads[this.currentSpeaker].text;
+
+      case StepResult.DELAY:
+      this.delay--
+      return this.threads[this.currentSpeaker].text;
+    }
+  }
+
+  step(): { type: string, char?: string } {
+    return step(this);
   }
 
   contentBegin(secondsElapsed: number): void {
@@ -37,12 +73,14 @@ export default class ThreadHandler implements ThreadHandlerInterface {
   }
 
   contentEnd(): void {
-    let contentPos = this.threadStates.contentPoss[this.currentSpeaker];
+    let contentPos = this.threadStates[this.currentSpeaker].contentPoss[
+      this.threadStates[this.currentSpeaker].currentTalk];
     let content = this.threads[this.currentSpeaker].talk.contents[contentPos];
     let fragment = content.fragments[this.fragmentPos];
 
     this.threads[this.currentSpeaker].text += '\n';
-    contentPos++;
+    this.threadStates[this.currentSpeaker].contentPoss[
+      this.threadStates[this.currentSpeaker].currentTalk] = contentPos+1;
     this.fragmentPos = -1;
     this.subPos = 0;
     if (contentPos >= this.threads[this.currentSpeaker].talk.contents.length) {
@@ -55,35 +93,39 @@ export default class ThreadHandler implements ThreadHandlerInterface {
   }
 
   fragmentActBefore(): void {
-    let contentPos = this.threadStates.contentPoss[this.currentSpeaker];
+    let contentPos = this.threadStates[this.currentSpeaker].contentPoss[
+      this.threadStates[this.currentSpeaker].currentTalk];
     let content = this.threads[this.currentSpeaker].talk.contents[contentPos];
     let fragment = content.fragments[this.fragmentPos];
 
-    switch (fragment.actionBefore) {
-      case FragmentActions.MICRO_PAUSE:
-      this.delay = 4;
-      break;
+    if (fragment) {
+      switch (fragment.actionBefore) {
+        case FragmentActions.MICRO_PAUSE:
+        this.delay = 4;
+        break;
 
-      case FragmentActions.SHORT_PAUSE:
-      this.delay = 10;
-      break;
+        case FragmentActions.SHORT_PAUSE:
+        this.delay = 10;
+        break;
 
-      case FragmentActions.MED_PAUSE:
-      this.delay = 20;
-      break;
+        case FragmentActions.MED_PAUSE:
+        this.delay = 20;
+        break;
 
-      case FragmentActions.LONG_PAUSE:
-      this.delay = 30;
-      break;
+        case FragmentActions.LONG_PAUSE:
+        this.delay = 30;
+        break;
 
-      case FragmentActions.VLONG_PAUSE:
-      this.delay = 50;
-      break;
+        case FragmentActions.VLONG_PAUSE:
+        this.delay = 50;
+        break;
+      }
     }
   }
 
   fragmentEnd(): void {
-    let contentPos = this.threadStates.contentPoss[this.currentSpeaker];
+    let contentPos = this.threadStates[this.currentSpeaker].contentPoss[
+      this.threadStates[this.currentSpeaker].currentTalk];
     let content = this.threads[this.currentSpeaker].talk.contents[contentPos];
     let fragment = content.fragments[this.fragmentPos];
 
@@ -96,7 +138,8 @@ export default class ThreadHandler implements ThreadHandlerInterface {
   }
 
   fragmentActAfter(): void {
-    let contentPos = this.threadStates.contentPoss[this.currentSpeaker];
+    let contentPos = this.threadStates[this.currentSpeaker].contentPoss[
+      this.threadStates[this.currentSpeaker].currentTalk];
     let content = this.threads[this.currentSpeaker].talk.contents[contentPos];
     let fragment = content.fragments[this.fragmentPos];
 
@@ -124,7 +167,8 @@ export default class ThreadHandler implements ThreadHandlerInterface {
   }
 
   receiveResponseTrigger(responseName: string, responseValue: string): number[] {
-    let contentPos = this.threadStates.contentPoss[this.currentSpeaker];
+    let contentPos = this.threadStates[this.currentSpeaker].contentPoss[
+      this.threadStates[this.currentSpeaker].currentTalk];
     let talk = this.threads[this.currentSpeaker].talk;
     let responsePaths = talk.contents[contentPos].responses;
     let matchingRespPath: Response = null;

@@ -30,7 +30,7 @@ class ThreadWindow extends Component {
 
   callThreadStep() {
     if (this.props.tHandler.ended == false) {
-      let newText = this.props.tHandler.step(this.state.secondsElapsed);
+      let newText = this.props.tHandler.takeStep(this.state.secondsElapsed);
       this.setState({text: newText});
     }
   }

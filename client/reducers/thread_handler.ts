@@ -10,8 +10,8 @@ threadMap[CharacterNames.AMICHAEL] = new Thread(amichael0_0);
 let threadStateMap: { [speaker: string] : ThreadState } = {};
 threadStateMap[CharacterNames.AMICHAEL] = new ThreadState({
   speaker: CharacterNames.AMICHAEL,
-  currentTalk: [0],
-  contentPoss: [[0]]
+  currentTalk: 0,
+  contentPoss: [0]
 })
 let startingTHandler = new ThreadHandler({
   currentSpeaker: CharacterNames.AMICHAEL,

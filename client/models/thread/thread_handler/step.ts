@@ -1,32 +1,31 @@
 import ThreadHandler from './thread_handler';
+import { StepResult } from '../../enums/step_result';
 
-export default function step(th: ThreadHandler, secondsElapsed: number): string {
+export default function step(th: ThreadHandler): { type: string, char?: string } {
   if (th.delay == 0) {
-    let contentPos = this.threadStates.contentPoss[this.currentSpeaker];
+    let contentPos = th.threadStates[th.currentSpeaker].contentPoss[
+      th.threadStates[th.currentSpeaker].currentTalk];
     let content = th.threads[th.currentSpeaker].talk.contents[contentPos];
+    
+    if (th.fragmentPos == -1 && th.subPos == 0) {
+      return { type: StepResult.CON_START };
+    }
+
     let fragment = content.fragments[th.fragmentPos];
 
-    if (th.fragmentPos == -1 && th.subPos == 0) {
-      th.contentBegin(secondsElapsed);
-      th.fragmentPos++;
-      th.fragmentBegin();
-      return th.threads[th.currentSpeaker].text;
-    }
-
-    th.threads[th.currentSpeaker].text += fragment.text[th.subPos];
-    th.subPos++;
-    if (th.subPos >= (fragment.text.length-1)) {
-      th.fragmentEnd();
-      th.fragmentBegin();
-    }
+    let char = fragment.text[th.subPos];
     if (th.fragmentPos >= (content.fragments.length-1)
-      && th.subPos >= (fragment.text.length-1)) {
-      th.contentEnd();
+      && (th.subPos) >= (fragment.text.length-1)) {
+      return { type: StepResult.CON_END, char: char };
     }
-    return th.threads[th.currentSpeaker].text;
+    if ((th.subPos) >= (fragment.text.length-1)) {
+      return { type: StepResult.FRG_END_START, char: char };
+    }
+    else {
+      return { type: StepResult.FORWARD, char: char };
+    }
   }
   else {
-    th.delay--;
-    return th.threads[th.currentSpeaker].text;
+    return { type: StepResult.DELAY };
   }
 }
