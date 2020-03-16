@@ -14,6 +14,10 @@ export default class Cursor extends Component {
     }
   }
 
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
+  }
+
   toggle() {
     this.setState({on: !this.state.on});
   }
