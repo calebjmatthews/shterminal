@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import ThreadHandler from '../models/thread/thread_handler/thread_handler';
+import { responseTriggerSelect } from '../actions/thread_handler';
 import { utils } from '../models/utils';
 import { RespButtonNames } from '../models/enums/resp_button_names';
 
-export default class ResponseButton extends Component {
+class ResponseButton extends Component {
   state: {
     name: string,
     value: string,
     timeouts: NodeJS.Timeout[]
   };
-  props: {givenValue: string};
+  props: ResponseButtonProps;
 
   constructor(props: {givenValue: string}) {
     super(props);
@@ -34,6 +38,8 @@ export default class ResponseButton extends Component {
         timeouts: timeouts
       }
     }
+
+    this.click = this.click.bind(this);
   }
 
   setScrambledValue(index: number): void {
@@ -57,9 +63,36 @@ export default class ResponseButton extends Component {
     return scrambledValue;
   }
 
+  click() {
+    this.props.responseTriggerSelect(this.props.tHandler, this.state.name,
+      this.state.value);
+  }
+
   render() {
     return (
-      <button type="button">{'> ' + this.state.value}</button>
+      <button type="button" onClick={ () => this.click() }>
+      {'> ' + this.state.value}
+      </button>
     );
   }
 }
+
+class ResponseButtonProps {
+  givenValue: string
+  tHandler: ThreadHandler;
+  responseTriggerSelect: (tHandler: ThreadHandler, responseName: string,
+    responseValue: string) => any;
+}
+
+function mapStateToProps({ tHandler }) {
+  return { tHandler }
+}
+
+function mapDispatchToProps(dispatch: any) {
+  return bindActionCreators({
+    responseTriggerSelect
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)
+  (ResponseButton);

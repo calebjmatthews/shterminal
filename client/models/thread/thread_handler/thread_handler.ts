@@ -21,8 +21,10 @@ export default class ThreadHandler implements ThreadHandlerInterface {
   pendingNull: boolean = false;
   pendingTalk: number[] = null;
 
-  constructor(threadHandler: ThreadHandlerInterface) {
-    Object.assign(this, threadHandler);
+  constructor(threadHandler: ThreadHandlerInterface = null) {
+    if (threadHandler != null) {
+      Object.assign(this, threadHandler);
+    }
   }
 
   takeStep(secondsElapsed: number): string {

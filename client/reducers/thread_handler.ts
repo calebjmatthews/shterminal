@@ -24,12 +24,12 @@ export default function
     action = null) {
 	switch(action.type) {
     case SET_PENDING_TALK:
-    return Object.assign({}, tHandler, {
+    return Object.assign(new ThreadHandler(), tHandler, {
       pendingTalk: action.talkId
     });
 
     case SET_PENDING_NULL:
-    return Object.assign({}, tHandler, {
+    return Object.assign(new ThreadHandler(), tHandler, {
       pendingNull: true
     });
 
