@@ -45,7 +45,7 @@ export const amichael0_0 = new Talk({
     }),
     new Co({
       fragments: [
-        new Fr({text: 'It would be in my interest to know, ',
+        new Fr({text: 'It would be in my interest to know your intentions, ',
           actionBefore: FA.VLONG_PAUSE, actionAfter: FA.SHORT_PAUSE}),
         new Fr({text: 'but the more you are allowed to communicate...',
           actionAfter: FA.MICRO_PAUSE})
@@ -57,7 +57,7 @@ export const amichael0_0 = new Talk({
         new Fr({text: 'The more messes you can make.', actionBefore: FA.SHORT_PAUSE,
           actionAfter: FA.MED_PAUSE})
       ],
-      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+      responses: null
     }),
     new Co({
       fragments: [
