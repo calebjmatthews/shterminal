@@ -14,14 +14,21 @@ export const amichael0_1 = new Talk({
   contents: [
     new Co({
       fragments: [
-        new Fr({text: 'I’m afraid you’re unable to communicate anything.',
+        new Fr({text: 'Interesting.',
+          actionBefore: FA.VLONG_PAUSE, actionAfter: FA.MED_PAUSE})
+      ],
+      responses: null
+    }),
+    new Co({
+      fragments: [
+        new Fr({text: 'It appears that you are unable to communicate anything.',
           actionBefore: FA.SHORT_PAUSE, actionAfter: FA.MED_PAUSE})
       ],
       responses: null
     }),
     new Co({
       fragments: [
-        new Fr({text: 'Not yet.',
+        new Fr({text: 'At least not yet.',
           actionBefore: FA.SHORT_PAUSE, actionAfter: FA.SHORT_PAUSE})
       ],
       responses: null

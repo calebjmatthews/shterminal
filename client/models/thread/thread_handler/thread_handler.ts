@@ -8,6 +8,7 @@ import step from './step';
 import { FragmentActions } from '../../enums/fragment_actions';
 import { StepResult } from '../../enums/step_result';
 const STARTING_TIME_STRING = '82-05-05 02:33:06';
+const USER_NAME = 'matalanta';
 
 export default class ThreadHandler implements ThreadHandlerInterface {
   currentSpeaker: string;
@@ -44,7 +45,7 @@ export default class ThreadHandler implements ThreadHandlerInterface {
 
       case StepResult.CON_END:
       this.fragmentEnd();
-      this.contentEnd();
+      this.contentEnd(secondsElapsed);
       this.fragmentBegin();
       return this.threads[this.currentSpeaker].text;
 
@@ -76,7 +77,7 @@ export default class ThreadHandler implements ThreadHandlerInterface {
       + this.currentSpeaker + ': ');
   }
 
-  contentEnd(): void {
+  contentEnd(secondsElapsed: number): void {
     let contentPos = this.threadStates[this.currentSpeaker].getContentPos();
     let content = this.threads[this.currentSpeaker]
       .getTalk(this.threadStates[this.currentSpeaker].currentTalk)
@@ -120,10 +121,19 @@ export default class ThreadHandler implements ThreadHandlerInterface {
       this.threadStates[this.currentSpeaker].setContentPos(0);
       this.fragmentPos = -1;
       this.subPos = 0;
+      this.responseAdd(secondsElapsed, this.pendingResValue);
       this.pendingTalk = null;
       this.pendingResName = null;
       this.pendingResValue = null;
     }
+  }
+
+  responseAdd(secondsElapsed: number, responseValue: string): void {
+    let storyMoment = moment(STARTING_TIME_STRING, 'YY-MM-DD HH:mm:ss');
+    storyMoment.add(secondsElapsed, 'seconds');
+    let datetimeText = storyMoment.format('HH:mm:ss');
+    this.threads[this.currentSpeaker].text += (datetimeText + ' '
+      + USER_NAME + ': ' + responseValue + '\n');
   }
 
   fragmentBegin(): void {
