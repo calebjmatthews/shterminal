@@ -4,7 +4,8 @@ import { StepResult } from '../../enums/step_result';
 export default function step(th: ThreadHandler): { type: string, char?: string } {
   if (th.delay == 0) {
     let contentPos = th.threadStates[th.currentSpeaker].getContentPos();
-    let content = th.threads[th.currentSpeaker].talk.contents[contentPos];
+    let content = th.threads[th.currentSpeaker]
+      .getTalk(th.threadStates[th.currentSpeaker].currentTalk).contents[contentPos];
 
     if (th.fragmentPos == -1 && th.subPos == 0) {
       return { type: StepResult.CON_START };

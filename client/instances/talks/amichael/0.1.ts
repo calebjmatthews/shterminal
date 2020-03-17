@@ -7,7 +7,7 @@ const FA = FragmentActions;
 import { RespButtonNames } from '../../../models/enums/resp_button_names';
 const RB = RespButtonNames;
 
-export const amichael0_0 = new Talk({
+export const amichael0_1 = new Talk({
   id: 1,
   name: 'You can\'t talk',
   speaker: 'amichael',
