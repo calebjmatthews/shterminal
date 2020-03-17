@@ -30,7 +30,10 @@ export default class ThreadHandler implements ThreadHandlerInterface {
   }
 
   takeStep(secondsElapsed: number): string {
-    let stepRes: { type: string, char?: string } = this.step();
+    let stepRes: { type: string, char?: string } = null;
+    if (this.ended == false) {
+      stepRes = this.step();
+    }
 
     switch(stepRes.type) {
       case StepResult.CON_START:
@@ -82,12 +85,25 @@ export default class ThreadHandler implements ThreadHandlerInterface {
 
     this.threads[this.currentSpeaker].text += '\n';
     if (this.pendingNull == false && this.pendingTalk == null) {
-      this.threadStates[this.currentSpeaker].setContentPos(contentPos+1);
-      this.fragmentPos = -1;
-      this.subPos = 0;
-      if (contentPos >= this.threads[this.currentSpeaker]
-        .getTalk(this.threadStates[this.currentSpeaker].currentTalk).contents.length) {
-        this.ended = true;
+      if (this.threadStates[this.currentSpeaker].getContentPos() <
+        this.threads[this.currentSpeaker]
+        .getTalk(this.threadStates[this.currentSpeaker].currentTalk)
+        .contents.length-1) {
+
+        this.threadStates[this.currentSpeaker].setContentPos(contentPos+1);
+        this.fragmentPos = -1;
+        this.subPos = 0;
+      }
+      else {
+        let goto = this.checkForEndResponse();
+        if (goto != null) {
+          this.threadStates[this.currentSpeaker].currentTalk = goto;
+          this.fragmentPos = -1;
+          this.subPos = 0;
+        }
+        else {
+          this.ended = true;
+        }
       }
     }
     else if (this.pendingNull == true) {
@@ -99,6 +115,7 @@ export default class ThreadHandler implements ThreadHandlerInterface {
       }
     }
     else if (this.pendingTalk != null) {
+      this.threadStates[this.currentSpeaker].setContentPos(contentPos+1);
       this.threadStates[this.currentSpeaker].currentTalk = this.pendingTalk;
       this.threadStates[this.currentSpeaker].setContentPos(0);
       this.fragmentPos = -1;
@@ -225,6 +242,20 @@ export default class ThreadHandler implements ThreadHandlerInterface {
       }
     }
     return null;
+  }
+
+  checkForEndResponse(): number[] {
+    let contentPos = this.threadStates[this.currentSpeaker].getContentPos();
+    let content = this.threads[this.currentSpeaker]
+      .getTalk(this.threadStates[this.currentSpeaker].currentTalk)
+      .contents[contentPos];
+    let goto = null;
+    content.responses.map((response) => {
+      if (response.trigger == null) {
+        goto = response.goto[0];
+      }
+    });
+    return goto;
   }
 }
 
