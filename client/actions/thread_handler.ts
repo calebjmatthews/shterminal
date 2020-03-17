@@ -8,12 +8,16 @@ export function responseTriggerSelect(tHandler: ThreadHandler, responseName: str
   if (newTalkId != null) {
     return {
       type: SET_PENDING_TALK,
-      talkId: newTalkId
+      talkId: newTalkId,
+      pendingResName: responseName,
+      pendingResValue: responseValue
     }
   }
   else {
     return {
-      type: SET_PENDING_NULL
+      type: SET_PENDING_NULL,
+      pendingResName: responseName,
+      pendingResValue: responseValue
     }
   }
 }

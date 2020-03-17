@@ -10,8 +10,8 @@ threadMap[CharacterNames.AMICHAEL] = new Thread(amichael0_0);
 let threadStateMap: { [speaker: string] : ThreadState } = {};
 threadStateMap[CharacterNames.AMICHAEL] = new ThreadState({
   speaker: CharacterNames.AMICHAEL,
-  currentTalk: 0,
-  contentPoss: [0]
+  currentTalk: [0, 0],
+  contentPoss: [[0]]
 })
 let startingTHandler = new ThreadHandler({
   currentSpeaker: CharacterNames.AMICHAEL,
@@ -25,12 +25,16 @@ export default function
 	switch(action.type) {
     case SET_PENDING_TALK:
     return Object.assign(new ThreadHandler(), tHandler, {
-      pendingTalk: action.talkId
+      pendingTalk: action.talkId,
+      pendingResName: action.pendingResName,
+      pendingResValue: action.pendingResValue
     });
 
     case SET_PENDING_NULL:
     return Object.assign(new ThreadHandler(), tHandler, {
-      pendingNull: true
+      pendingNull: true,
+      pendingResName: action.pendingResName,
+      pendingResValue: action.pendingResValue
     });
 
 		default:
