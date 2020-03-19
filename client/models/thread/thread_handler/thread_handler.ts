@@ -85,7 +85,15 @@ export default class ThreadHandler implements ThreadHandlerInterface {
     let fragment = content.fragments[this.fragmentPos];
 
     this.threads[this.currentSpeaker].text += '\n';
-    if (this.pendingNull == false && this.pendingTalk == null) {
+    if (this.pendingNull == true) {
+      let talkId = this.receiveResponseTrigger(this.pendingResName,
+        this.pendingResValue);
+      if (talkId != null) {
+        this.pendingTalk = talkId;
+        this.pendingNull = false;
+      }
+    }
+    if (this.pendingTalk == null) {
       if (this.threadStates[this.currentSpeaker].getContentPos() <
         this.threads[this.currentSpeaker]
         .getTalk(this.threadStates[this.currentSpeaker].currentTalk)
@@ -105,14 +113,6 @@ export default class ThreadHandler implements ThreadHandlerInterface {
         else {
           this.ended = true;
         }
-      }
-    }
-    else if (this.pendingNull == true) {
-      let talkId = this.receiveResponseTrigger(this.pendingResName,
-        this.pendingResValue);
-      if (talkId != null) {
-        this.pendingTalk = talkId;
-        this.pendingNull = false;
       }
     }
     else if (this.pendingTalk != null) {
