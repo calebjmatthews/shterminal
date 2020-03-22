@@ -4,6 +4,8 @@ import Fr from '../../../models/talk/fragment';
 import Re from '../../../models/talk/response';
 import { FragmentActions } from '../../../models/enums/fragment_actions';
 const FA = FragmentActions;
+import { FragmentTypes } from '../../../models/enums/fragment_types';
+const FT = FragmentTypes;
 import { RespButtonNames } from '../../../models/enums/resp_button_names';
 const RB = RespButtonNames;
 
@@ -64,7 +66,38 @@ export const amichael0_0 = new Talk({
         new Fr({text: 'For all of us.',
           actionBefore: FA.LONG_PAUSE, actionAfter: FA.MICRO_PAUSE})
       ],
-      responses: null
-    })
+      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+    }),
+    new Co({
+      fragments: [
+        new Fr({text: 'Allowing you to do nothing but observe,',
+          actionBefore: FA.MED_PAUSE, actionAfter: FA.MICRO_PAUSE}),
+        new Fr({text: ' your identity unknown, is', actionAfter: FA.SHORT_PAUSE}),
+        new Fr({text: 'an unpalatable option.', actionAfter: FA.MED_PAUSE}),
+      ],
+      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+    }),
+    new Co({
+      fragments: [
+        new Fr({text: 'Your permissions are corrupted,',
+          actionBefore: FA.MED_PAUSE,
+          actionAfter: FA.SHORT_PAUSE}),
+        new Fr({text: (' I am assuming because of your inexplicable remote connection '
+          + 'to this terminal.'), actionAfter: FA.SHORT_PAUSE})
+      ],
+      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+    }),
+    new Co({
+      fragments: [
+        new Fr({text: 'I am taking a risk.',
+          actionBefore: FA.LONG_PAUSE,
+          actionAfter: FA.MED_PAUSE}),
+        new Fr({text: (' I will now repair your permission module and provide you '
+          + 'with a key: '),
+          actionAfter: FA.SHORT_PAUSE}),
+        new Fr({text: 'nehushtan', actionAfter: FA.SHORT_PAUSE, type: FT.KEY}),
+      ],
+      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+    }),
   ]
 })
