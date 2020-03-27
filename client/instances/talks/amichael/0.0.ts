@@ -73,7 +73,7 @@ export const amichael0_0 = new Talk({
         new Fr({text: 'Allowing you to do nothing but observe,',
           actionBefore: FA.MED_PAUSE, actionAfter: FA.MICRO_PAUSE}),
         new Fr({text: ' your identity unknown, is', actionAfter: FA.SHORT_PAUSE}),
-        new Fr({text: 'an unpalatable option.', actionAfter: FA.MED_PAUSE}),
+        new Fr({text: ' an unpalatable option.', actionAfter: FA.MED_PAUSE}),
       ],
       responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
     }),

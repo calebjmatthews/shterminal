@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import Thread from '../models/thread/thread';
+import TalkFragment from '../models/talk/fragment';
 import ThreadHandler from '../models/thread/thread_handler/thread_handler';
 import Cursor from './cursor';
 
@@ -18,6 +19,7 @@ class ThreadWindow extends Component {
     super(props);
 
     this.state = {
+      lines: [[]],
       intervalStep: setInterval(() => {
         this.callThreadStep();
       }, INTERVAL_MS),
@@ -31,7 +33,10 @@ class ThreadWindow extends Component {
   callThreadStep() {
     if (this.props.tHandler.ended == false) {
       let newText = this.props.tHandler.takeStep(this.state.secondsElapsed);
-      this.setState({text: newText});
+      let tHandler = this.props.tHandler;
+      let talk = tHandler.threads[tHandler.currentSpeaker]
+        .getTalk(tHandler.threadStates[tHandler.currentSpeaker].currentTalk);
+      this.setState({lines: talk.lines});
     }
   }
 
@@ -40,20 +45,24 @@ class ThreadWindow extends Component {
   }
 
   render() {
-    let tHandler = this.props.tHandler;
-    let textSplit = tHandler.threads[tHandler.currentSpeaker].text.split('\n');
     return (
       <div className="thread-container">
-        {textSplit.map((line, index) => {
-          if (index == textSplit.length-1 && line.length > 0) {
-            return <div key={index}>{line}<Cursor /></div>
+        {this.state.lines.map((line, lIndex) => {
+          if (lIndex == this.state.lines.length-1 && line.length > 0) {
+            return <div key={lIndex}>{this.renderLine(line)}<Cursor /></div>
           }
           else {
-            return <div key={index}>{line}</div>
+            return <div key={lIndex}>{this.renderLine(line)}</div>
           }
         })}
       </div>
     );
+  }
+
+  renderLine(line: TalkFragment[]) {
+    return line.map((fragment, fIndex) => {
+      return <span key={fIndex}>{fragment.visible}</span>
+    });
   }
 }
 
@@ -62,6 +71,7 @@ class ThreadWindowProps {
 }
 
 class ThreadWindowState {
+  lines: TalkFragment[][];
   intervalStep: NodeJS.Timeout;
   secondsElapsed: number;
   intervalSeconds: NodeJS.Timeout;

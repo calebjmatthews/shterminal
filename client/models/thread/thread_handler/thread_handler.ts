@@ -41,27 +41,30 @@ export default class ThreadHandler implements ThreadHandlerInterface {
       this.contentBegin(secondsElapsed);
       this.fragmentPos++;
       this.fragmentBegin();
-      return this.threads[this.currentSpeaker].text;
+      return StepResult.CON_START;
 
       case StepResult.CON_END:
       this.fragmentEnd();
       this.contentEnd(secondsElapsed);
       this.fragmentBegin();
-      return this.threads[this.currentSpeaker].text;
+      return StepResult.CON_END;
 
       case StepResult.FRG_END_START:
       this.fragmentEnd();
       this.fragmentBegin();
-      return this.threads[this.currentSpeaker].text;
+      return StepResult.FRG_END_START;
 
       case StepResult.FORWARD:
-      this.threads[this.currentSpeaker].text += stepRes.char;
+      // this.threads[this.currentSpeaker].text += stepRes.char;
+      this.threads[this.currentSpeaker]
+        .getTalk(this.threadStates[this.currentSpeaker].currentTalk)
+        .addToLine(stepRes.char);
       this.subPos++;
-      return this.threads[this.currentSpeaker].text;
+      return StepResult.FORWARD;
 
       case StepResult.DELAY:
-      this.delay--
-      return this.threads[this.currentSpeaker].text;
+      this.delay--;
+      return StepResult.DELAY;
     }
   }
 
@@ -73,18 +76,19 @@ export default class ThreadHandler implements ThreadHandlerInterface {
     let storyMoment = moment(STARTING_TIME_STRING, 'YY-MM-DD HH:mm:ss');
     storyMoment.add(secondsElapsed, 'seconds');
     let datetimeText = storyMoment.format('HH:mm:ss');
-    this.threads[this.currentSpeaker].text += (datetimeText + ' '
-      + this.currentSpeaker + ': ');
+    let talk = this.threads[this.currentSpeaker]
+      .getTalk(this.threadStates[this.currentSpeaker].currentTalk);
+    talk.addToLine(datetimeText + ' ' + this.currentSpeaker + ': ');
   }
 
   contentEnd(secondsElapsed: number): void {
     let contentPos = this.threadStates[this.currentSpeaker].getContentPos();
-    let content = this.threads[this.currentSpeaker]
-      .getTalk(this.threadStates[this.currentSpeaker].currentTalk)
-      .contents[contentPos];
+    let talk = this.threads[this.currentSpeaker]
+      .getTalk(this.threadStates[this.currentSpeaker].currentTalk);
+    let content = talk.contents[contentPos];
     let fragment = content.fragments[this.fragmentPos];
 
-    this.threads[this.currentSpeaker].text += '\n';
+    talk.startNewLine();
     if (this.pendingNull == true) {
       let talkId = this.receiveResponseTrigger(this.pendingResName,
         this.pendingResValue);
@@ -132,12 +136,20 @@ export default class ThreadHandler implements ThreadHandlerInterface {
     let storyMoment = moment(STARTING_TIME_STRING, 'YY-MM-DD HH:mm:ss');
     storyMoment.add(secondsElapsed, 'seconds');
     let datetimeText = storyMoment.format('HH:mm:ss');
-    this.threads[this.currentSpeaker].text += (datetimeText + ' '
-      + USER_NAME + ': ' + responseValue + '\n');
+    let talk = this.threads[this.currentSpeaker]
+      .getTalk(this.threadStates[this.currentSpeaker].currentTalk);
+    talk.addToLine(datetimeText + ' ' + USER_NAME + ': ' + responseValue);
   }
 
   fragmentBegin(): void {
     this.fragmentActBefore();
+    let talk = this.threads[this.currentSpeaker]
+      .getTalk(this.threadStates[this.currentSpeaker].currentTalk);
+    let contentPos = this.threadStates[this.currentSpeaker].getContentPos();
+    let fragment = talk.contents[contentPos].fragments[this.fragmentPos];
+    if (fragment) {
+      talk.startNewFragment(fragment);
+    }
   }
 
   fragmentActBefore(): void {
@@ -174,12 +186,12 @@ export default class ThreadHandler implements ThreadHandlerInterface {
 
   fragmentEnd(): void {
     let contentPos = this.threadStates[this.currentSpeaker].getContentPos();
-    let content = this.threads[this.currentSpeaker]
+    let talk = this.threads[this.currentSpeaker]
       .getTalk(this.threadStates[this.currentSpeaker].currentTalk)
-      .contents[contentPos];
+    let content = talk.contents[contentPos];
     let fragment = content.fragments[this.fragmentPos];
 
-    this.threads[this.currentSpeaker].text += fragment.text[this.subPos];
+    talk.addToLine(fragment.text[this.subPos]);
     this.fragmentActAfter();
     if (this.fragmentPos+1 < content.fragments.length) {
       this.fragmentPos++;

@@ -2,7 +2,6 @@ import Talk from '../talk/talk';
 
 export default class Thread {
   speaker: string;
-  text: string = '';
   talks: Talk[][] = [];
 
   constructor(talks: Talk[][]) {
@@ -16,6 +15,5 @@ export default class Thread {
 
 interface ThreadInterface {
   speaker: string;
-  text: string;
   talks: Talk[][];
 }
