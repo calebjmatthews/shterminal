@@ -32,11 +32,9 @@ class ThreadWindow extends Component {
 
   callThreadStep() {
     if (this.props.tHandler.ended == false) {
-      let newText = this.props.tHandler.takeStep(this.state.secondsElapsed);
+      let result = this.props.tHandler.takeStep(this.state.secondsElapsed);
       let tHandler = this.props.tHandler;
-      let talk = tHandler.threads[tHandler.currentSpeaker]
-        .getTalk(tHandler.threadStates[tHandler.currentSpeaker].currentTalk);
-      this.setState({lines: talk.lines});
+      this.setState({lines: tHandler.threads[tHandler.currentSpeaker].lines});
     }
   }
 

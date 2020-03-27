@@ -56,9 +56,7 @@ export default class ThreadHandler implements ThreadHandlerInterface {
 
       case StepResult.FORWARD:
       // this.threads[this.currentSpeaker].text += stepRes.char;
-      this.threads[this.currentSpeaker]
-        .getTalk(this.threadStates[this.currentSpeaker].currentTalk)
-        .addToLine(stepRes.char);
+      this.threads[this.currentSpeaker].addToLine(stepRes.char);
       this.subPos++;
       return StepResult.FORWARD;
 
@@ -77,8 +75,7 @@ export default class ThreadHandler implements ThreadHandlerInterface {
     storyMoment.add(secondsElapsed, 'seconds');
     let datetimeText = storyMoment.format('HH:mm:ss');
     let talk = this.threads[this.currentSpeaker]
-      .getTalk(this.threadStates[this.currentSpeaker].currentTalk);
-    talk.addToLine(datetimeText + ' ' + this.currentSpeaker + ': ');
+      .addToLine(datetimeText + ' ' + this.currentSpeaker + ': ');
   }
 
   contentEnd(secondsElapsed: number): void {
@@ -88,7 +85,7 @@ export default class ThreadHandler implements ThreadHandlerInterface {
     let content = talk.contents[contentPos];
     let fragment = content.fragments[this.fragmentPos];
 
-    talk.startNewLine();
+    this.threads[this.currentSpeaker].startNewLine();
     if (this.pendingNull == true) {
       let talkId = this.receiveResponseTrigger(this.pendingResName,
         this.pendingResValue);
@@ -129,6 +126,7 @@ export default class ThreadHandler implements ThreadHandlerInterface {
       this.pendingTalk = null;
       this.pendingResName = null;
       this.pendingResValue = null;
+      this.threads[this.currentSpeaker].startNewLine();
     }
   }
 
@@ -137,8 +135,7 @@ export default class ThreadHandler implements ThreadHandlerInterface {
     storyMoment.add(secondsElapsed, 'seconds');
     let datetimeText = storyMoment.format('HH:mm:ss');
     let talk = this.threads[this.currentSpeaker]
-      .getTalk(this.threadStates[this.currentSpeaker].currentTalk);
-    talk.addToLine(datetimeText + ' ' + USER_NAME + ': ' + responseValue);
+      .addToLine(datetimeText + ' ' + USER_NAME + ': ' + responseValue);
   }
 
   fragmentBegin(): void {
@@ -148,7 +145,7 @@ export default class ThreadHandler implements ThreadHandlerInterface {
     let contentPos = this.threadStates[this.currentSpeaker].getContentPos();
     let fragment = talk.contents[contentPos].fragments[this.fragmentPos];
     if (fragment) {
-      talk.startNewFragment(fragment);
+      this.threads[this.currentSpeaker].startNewFragment(fragment);
     }
   }
 
@@ -191,7 +188,7 @@ export default class ThreadHandler implements ThreadHandlerInterface {
     let content = talk.contents[contentPos];
     let fragment = content.fragments[this.fragmentPos];
 
-    talk.addToLine(fragment.text[this.subPos]);
+    this.threads[this.currentSpeaker].addToLine(fragment.text[this.subPos]);
     this.fragmentActAfter();
     if (this.fragmentPos+1 < content.fragments.length) {
       this.fragmentPos++;
