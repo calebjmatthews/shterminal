@@ -1,20 +1,39 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ResponseButton from './resp_button';
+import Reader from '../models/reader';
 
-// <div className="button-group">
-//   <button type="button">{'> Yes'}</button>
-//   <button type="button">{'> No'}</button>
-// </div>
+class Footer extends Component {
+  props: FooterProps;
 
-export default function Sidebar() {
-  return (
-    <div className="footer">
-      <div>
-        AUTHORIZED RESPONSE OPTIONS:
+  constructor(props: FooterProps) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="footer">
+        <div>
+          AUTHORIZED RESPONSE OPTIONS:
+        </div>
+        <div>
+          {this.props.reader.permissions.map((permission) => {
+            return <ResponseButton key={permission} givenValue={permission} />
+          })}
+        </div>
       </div>
-      <div>
-        <ResponseButton givenValue='scrambled' />
-      </div>
-    </div>
-  );
+    );
+  }
+
 }
+
+class FooterProps {
+  reader: Reader;
+}
+
+
+function mapStateToProps({ reader }) {
+  return { reader }
+}
+
+export default connect(mapStateToProps)(Footer);

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ThreadHandler from '../models/thread/thread_handler/thread_handler';
-import Reader from '../models/reader';
 import { responseTriggerSelect } from '../actions/thread_handler';
 import { utils } from '../models/utils';
 import { ResponseNames } from '../models/enums/response_names';
@@ -70,37 +69,34 @@ class ResponseButton extends Component {
   }
 
   render() {
-    return this.props.reader.permissions.map((permission) => {
-      let caption = '> ';
-      if (permission == ResponseNames.SCRAMBLED) {
-        caption += this.state.value;
-      }
-      else {
-        caption += permission;
-      }
-      if (this.props.tHandler.pendingNull == true
-        || this.props.tHandler.pendingTalk != null) {
-        caption = 'Pending...';
-      }
-      return (
-        <button type="button" onClick={ () => this.click() }>
-          { caption }
-        </button>
-      );
-    });
+    let caption = '> ';
+    if (this.state.value == ResponseNames.SCRAMBLED) {
+      caption += this.state.value;
+    }
+    else {
+      caption += this.state.value;
+    }
+    if (this.props.tHandler.pendingNull == true
+      || this.props.tHandler.pendingTalk != null) {
+      caption = 'Pending...';
+    }
+    return (
+      <button type="button" onClick={ () => this.click() }>
+        { caption }
+      </button>
+    );
   }
 }
 
 class ResponseButtonProps {
   givenValue: string
   tHandler: ThreadHandler;
-  reader: Reader;
   responseTriggerSelect: (tHandler: ThreadHandler, responseName: string,
     responseValue: string) => any;
 }
 
-function mapStateToProps({ tHandler, reader }) {
-  return { tHandler, reader }
+function mapStateToProps({ tHandler }) {
+  return { tHandler }
 }
 
 function mapDispatchToProps(dispatch: any) {
