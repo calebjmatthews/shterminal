@@ -3,5 +3,6 @@ export enum FragmentActions {
   SHORT_PAUSE = 'Short pause',
   MED_PAUSE = 'Medium pause',
   LONG_PAUSE = 'Long pause',
-  VLONG_PAUSE = 'Very long pause'
+  VLONG_PAUSE = 'Very long pause',
+  TWO_HUNDRED_PAUSE = 'Two hundred pause'
 }

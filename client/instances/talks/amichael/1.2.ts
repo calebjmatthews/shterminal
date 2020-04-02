@@ -7,31 +7,24 @@ const FA = FragmentActions;
 import { ResponseNames } from '../../../models/enums/response_names';
 const RN = ResponseNames;
 
-export const amichael0_2 = new Talk({
-  id: 2,
-  name: 'You truly can\'t talk',
+export const amichael1_2 = new Talk({
+  id: 7,
+  name: 'You say you aren\'t one of us.',
   speaker: 'amichael',
   contents: [
     new Co({
       fragments: [
-        new Fr({text: 'Some advice: urgency will do you no good.',
+        new Fr({text: 'Good.',
           actionBefore: FA.LONG_PAUSE, actionAfter: FA.SHORT_PAUSE})
       ],
       responses: null
     }),
     new Co({
       fragments: [
-        new Fr({text: 'Be calm.',
-          actionBefore: FA.SHORT_PAUSE, actionAfter: FA.MED_PAUSE})
+        new Fr({text: 'Honesty is in your best interest.',
+          actionBefore: FA.MICRO_PAUSE, actionAfter: FA.MED_PAUSE})
       ],
-      responses: null
-    }),
-    new Co({
-      fragments: [
-        new Fr({text: 'Let me speak.',
-          actionBefore: FA.SHORT_PAUSE, actionAfter: FA.SHORT_PAUSE})
-      ],
-      responses: [new Re({trigger: null, goto: [[0, 0]]})]
+      responses: [new Re({trigger: null, goto: [[2, 5]]})]
     })
   ]
 })

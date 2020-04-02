@@ -7,7 +7,7 @@ const FA = FragmentActions;
 import { FragmentTypes } from '../../../models/enums/fragment_types';
 const FT = FragmentTypes;
 import { ResponseNames } from '../../../models/enums/response_names';
-const RB = ResponseNames;
+const RN = ResponseNames;
 
 export const amichael0_0 = new Talk({
   id: 0,
@@ -20,7 +20,7 @@ export const amichael0_0 = new Talk({
           actionAfter: FA.MED_PAUSE}),
         new Fr({text: 'Who are you?', actionAfter: FA.SHORT_PAUSE})
       ],
-      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+      responses: [new Re({trigger: RN.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
     }),
     new Co({
       fragments: [
@@ -28,7 +28,7 @@ export const amichael0_0 = new Talk({
           actionBefore: FA.MED_PAUSE, actionAfter: FA.SHORT_PAUSE}),
         new Fr({text: 'which should not be possible.', actionAfter: FA.SHORT_PAUSE})
       ],
-      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+      responses: [new Re({trigger: RN.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
     }),
     new Co({
       fragments: [
@@ -43,7 +43,7 @@ export const amichael0_0 = new Talk({
         new Fr({text: 'Heaven knows what that could be.',
           actionBefore: FA.SHORT_PAUSE, actionAfter: FA.MED_PAUSE})
       ],
-      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+      responses: [new Re({trigger: RN.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
     }),
     new Co({
       fragments: [
@@ -66,7 +66,7 @@ export const amichael0_0 = new Talk({
         new Fr({text: 'For all of us.',
           actionBefore: FA.LONG_PAUSE, actionAfter: FA.MICRO_PAUSE})
       ],
-      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+      responses: [new Re({trigger: RN.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
     }),
     new Co({
       fragments: [
@@ -75,7 +75,7 @@ export const amichael0_0 = new Talk({
         new Fr({text: ' your identity unknown, is', actionAfter: FA.SHORT_PAUSE}),
         new Fr({text: ' an unpalatable option.', actionAfter: FA.MED_PAUSE}),
       ],
-      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+      responses: [new Re({trigger: RN.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
     }),
     new Co({
       fragments: [
@@ -85,7 +85,7 @@ export const amichael0_0 = new Talk({
         new Fr({text: (' I am assuming because of your inexplicable remote connection '
           + 'to this terminal.'), actionAfter: FA.SHORT_PAUSE})
       ],
-      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+      responses: [new Re({trigger: RN.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
     }),
     new Co({
       fragments: [
@@ -97,7 +97,28 @@ export const amichael0_0 = new Talk({
           actionAfter: FA.SHORT_PAUSE}),
         new Fr({text: 'nehushtan', actionAfter: FA.SHORT_PAUSE, type: FT.KEY}),
       ],
-      responses: [new Re({trigger: RB.SCRAMBLED, goto: [[0, 1], [0, 2]]})]
+      responses: null
+    }),
+    new Co({
+      fragments: [
+        new Fr({text: 'Now, then.',
+          actionBefore: FA.LONG_PAUSE, actionAfter: FA.MED_PAUSE}),
+        new Fr({text: (' Can you communicate?'), actionAfter: FA.VLONG_PAUSE}),
+      ],
+      responses: [
+        new Re({trigger: RN.YES, goto: [[0, 3]]}),
+        new Re({trigger: RN.NO, goto: [[0, 4]]})
+      ]
+    }),
+    new Co({
+      fragments: [
+        new Fr({text: 'I will wait.',
+          actionBefore: FA.LONG_PAUSE, actionAfter: FA.TWO_HUNDRED_PAUSE})
+      ],
+      responses: [
+        new Re({trigger: RN.YES, goto: [[0, 3]]}),
+        new Re({trigger: RN.NO, goto: [[0, 4]]})
+      ]
     }),
   ]
 })
