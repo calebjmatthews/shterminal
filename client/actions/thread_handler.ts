@@ -21,3 +21,13 @@ export function responseTriggerSelect(tHandler: ThreadHandler, responseName: str
     }
   }
 }
+
+export function setPendingTalk(talkId: number[], responseName: string,
+  responseValue: string) {
+  return {
+    type: SET_PENDING_TALK,
+    talkId: talkId,
+    pendingResName: responseName,
+    pendingResValue: responseValue
+  }
+}

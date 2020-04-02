@@ -16,7 +16,6 @@ button {
   font-family: "Courier New", Courier, monospace;
   font-size: 1em;
   background: none;
-  border: 1px solid #fff;
   color: #00ff00;
   border: 1px solid #00ff00;
   cursor: pointer;
@@ -24,7 +23,12 @@ button {
 button:disabled {
   opacity: 0.5;
 }
-
+.psuedo-button {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border: 1px solid #00ff00;
+}
 
 .icon-button {
   position: relative;

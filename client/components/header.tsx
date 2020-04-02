@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 
+import ThreadToggle from './thread_toggle';
+
+const DEBUG = 'true';
+
 export default class Header extends Component {
   state: HeaderState;
 
@@ -29,13 +33,22 @@ export default class Header extends Component {
           DPOL SH TERMINAL v108.55
         </div>
         <div>
-          LOGGED IN AS matalanta
+          { this.renderCenter() }
         </div>
         <div>
           {datetimeText}
         </div>
       </div>
     );
+  }
+
+  renderCenter() {
+    if (!DEBUG) {
+      return ('LOGGED IN AS matalanta');
+    }
+    else {
+      return <ThreadToggle />
+    }
   }
 }
 

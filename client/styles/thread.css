@@ -9,3 +9,12 @@
   background: #fff;
   cursor: pointer;
 }
+
+.thread-toggle {
+  display: flex;
+  align-items: center;
+}
+.thread-toggle button {
+  min-width: unset;
+  margin: unset;
+}
