@@ -3,6 +3,7 @@ Thread state:
 - Tracks the current content position with each talk, even those that are not active
 - Records each displayed content piece (the talk it came from?) and its timestamp
 
+
 Step function:
 - Returns an enum string that signifies the result of the timestep
   - "Delay" if stepping through an existing delay
