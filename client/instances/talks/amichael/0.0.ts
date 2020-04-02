@@ -6,8 +6,8 @@ import { FragmentActions } from '../../../models/enums/fragment_actions';
 const FA = FragmentActions;
 import { FragmentTypes } from '../../../models/enums/fragment_types';
 const FT = FragmentTypes;
-import { RespButtonNames } from '../../../models/enums/resp_button_names';
-const RB = RespButtonNames;
+import { ResponseNames } from '../../../models/enums/response_names';
+const RB = ResponseNames;
 
 export const amichael0_0 = new Talk({
   id: 0,

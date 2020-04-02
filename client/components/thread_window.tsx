@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { receiveKey } from '../actions/reader';
 import Thread from '../models/thread/thread';
 import TalkFragment from '../models/talk/fragment';
 import ThreadHandler from '../models/thread/thread_handler/thread_handler';
+import Reader from '../models/reader';
 import Cursor from './cursor';
-
-import { amichael0_0 } from '../instances/talks/amichael/0.0';
+import { FragmentTypes } from '../models/enums/fragment_types';
 
 const INTERVAL_MS = 50;
 
@@ -28,6 +29,8 @@ class ThreadWindow extends Component {
         this.countSecond();
       }, 1000)
     }
+
+    this.keyClick = this.keyClick.bind(this);
   }
 
   callThreadStep() {
@@ -40,6 +43,10 @@ class ThreadWindow extends Component {
 
   countSecond() {
     this.setState({ secondsElapsed: this.state.secondsElapsed+1 });
+  }
+
+  keyClick(key: string) {
+    this.props.receiveKey(this.props.reader, key);
   }
 
   render() {
@@ -59,13 +66,26 @@ class ThreadWindow extends Component {
 
   renderLine(line: TalkFragment[]) {
     return line.map((fragment, fIndex) => {
-      return <span key={fIndex}>{fragment.visible}</span>
+      if (fragment.type == FragmentTypes.STANDARD) {
+        return <span key={fIndex}>{fragment.visible}</span>
+      }
+      else if (fragment.type == FragmentTypes.KEY) {
+        return (
+          <span key={fIndex} className="key"
+            onClick={() => this.keyClick(fragment.text)}>
+            {fragment.visible}
+          </span>
+        );
+      }
     });
   }
 }
 
 class ThreadWindowProps {
   tHandler: ThreadHandler;
+  reader: Reader;
+
+  receiveKey: (reader: Reader, key: string) => any;
 }
 
 class ThreadWindowState {
@@ -75,8 +95,14 @@ class ThreadWindowState {
   intervalSeconds: NodeJS.Timeout;
 }
 
-function mapStateToProps({ tHandler }) {
-  return { tHandler }
+function mapStateToProps({ tHandler, reader }) {
+  return { tHandler, reader }
 }
 
-export default connect(mapStateToProps)(ThreadWindow);
+function mapDispatchToProps(dispatch: any) {
+  return bindActionCreators({
+    receiveKey
+  }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThreadWindow);

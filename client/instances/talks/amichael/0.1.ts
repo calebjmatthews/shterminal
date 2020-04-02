@@ -4,8 +4,8 @@ import Fr from '../../../models/talk/fragment';
 import Re from '../../../models/talk/response';
 import { FragmentActions } from '../../../models/enums/fragment_actions';
 const FA = FragmentActions;
-import { RespButtonNames } from '../../../models/enums/resp_button_names';
-const RB = RespButtonNames;
+import { ResponseNames } from '../../../models/enums/response_names';
+const RB = ResponseNames;
 
 export const amichael0_1 = new Talk({
   id: 1,

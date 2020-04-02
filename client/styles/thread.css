@@ -3,3 +3,9 @@
   padding: 1.5em;
   overflow-y: auto;
 }
+
+.key {
+  color: #fff;
+  background: #fff;
+  cursor: pointer;
+}

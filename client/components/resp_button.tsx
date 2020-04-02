@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import ThreadHandler from '../models/thread/thread_handler/thread_handler';
+import Reader from '../models/reader';
 import { responseTriggerSelect } from '../actions/thread_handler';
 import { utils } from '../models/utils';
-import { RespButtonNames } from '../models/enums/resp_button_names';
+import { ResponseNames } from '../models/enums/response_names';
 
 class ResponseButton extends Component {
   state: {
@@ -18,7 +19,7 @@ class ResponseButton extends Component {
   constructor(props: {givenValue: string}) {
     super(props);
 
-    if (props.givenValue != RespButtonNames.SCRAMBLED) {
+    if (props.givenValue != ResponseNames.SCRAMBLED) {
       this.state = {
         name: props.givenValue,
         value: props.givenValue,
@@ -69,28 +70,37 @@ class ResponseButton extends Component {
   }
 
   render() {
-    let caption = '> ' + this.state.value;
-    if (this.props.tHandler.pendingNull == true
-      || this.props.tHandler.pendingTalk != null) {
-      caption = 'Pending...';
-    }
-    return (
-      <button type="button" onClick={ () => this.click() }>
-        { caption }
-      </button>
-    );
+    return this.props.reader.permissions.map((permission) => {
+      let caption = '> ';
+      if (permission == ResponseNames.SCRAMBLED) {
+        caption += this.state.value;
+      }
+      else {
+        caption += permission;
+      }
+      if (this.props.tHandler.pendingNull == true
+        || this.props.tHandler.pendingTalk != null) {
+        caption = 'Pending...';
+      }
+      return (
+        <button type="button" onClick={ () => this.click() }>
+          { caption }
+        </button>
+      );
+    });
   }
 }
 
 class ResponseButtonProps {
   givenValue: string
   tHandler: ThreadHandler;
+  reader: Reader;
   responseTriggerSelect: (tHandler: ThreadHandler, responseName: string,
     responseValue: string) => any;
 }
 
-function mapStateToProps({ tHandler }) {
-  return { tHandler }
+function mapStateToProps({ tHandler, reader }) {
+  return { tHandler, reader }
 }
 
 function mapDispatchToProps(dispatch: any) {
